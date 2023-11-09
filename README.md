@@ -226,3 +226,29 @@ Since C++17 we have been able to do this very cool thing:
     }
 
 Note that the initialized variable is visible also in the possible `else`-branch.
+
+## Use enum class
+
+The traditional enum is not type safe. In C++ we have this thing called `enum class`:
+
+**Don't do**
+
+    enum Values
+    {
+        One,
+        Two,
+        Three
+    };
+
+    const auto v = One;
+
+**Do**
+
+    enum class Values
+    {
+        One,
+        Two,
+        Three
+    };
+
+    const auto v = Values::One;
