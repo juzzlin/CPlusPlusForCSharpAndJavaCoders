@@ -130,3 +130,59 @@ Note also, that `()` is not needed in C++. At least replace these with the unive
 ```
     auto m = new MyLongClassName{};
 ```
+## Instantiating variables: understand the existence of universal and brace-enclosed initializations
+
+Often things are much easier in C++ than you first think.
+
+**Don't do**
+
+```
+    Foo getEmptyObject()
+    {
+        foo Foo;
+        return foo;
+    }
+```
+
+**Don't do**
+
+```
+    Foo getEmptyObject()
+    {
+        return Foo();
+    }
+```
+
+**Do**
+
+```
+    Foo getEmptyObject()
+    {
+        return {};
+    }
+```
+
+How about this:
+
+**Don't do**
+
+```
+    std::map<int, std::string> getMap()
+    {
+        std::map<int, std::string> m;
+        m[1] = "one";
+        m[2] = "two";
+        return m;
+    }
+```
+
+**Do**
+
+```
+    std::map<int, std::string> getMap()
+    {
+        return { {1, "one"}, {2, "two"} };
+    }
+```
+
+Wow, that's neat!
