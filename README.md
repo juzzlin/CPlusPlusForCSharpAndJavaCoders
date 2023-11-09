@@ -186,3 +186,41 @@ How about this:
 ```
 
 Wow, that's neat!
+
+## Use const. Everything should be const!
+
+Especially in C# the support for constness is pathetic and thus C#-coders usually don't use const in C++ either.
+
+In Java we have final and almost everything can be final.
+
+However, in C++ it's a good practice to make everything you can const. It documents the code and reveals bugs.
+
+**Don't do**
+
+```
+    int x = 0;
+    int y = 5;
+    std::string s(", ");
+    std::string r;
+    for (int i = x; i < y; i++) {
+        int c = i * y;
+        r += std::to_string(c) + s;
+    }
+```
+
+What the hell is this? Which variable is going to change and which is not going to change?
+
+**Do**
+
+```
+    const int x = 0;
+    const int y = 5;
+    const std::string s{", "};
+    std::string r;
+    for (int i = x; i < y; i++) {
+        const int c = i * y;
+        r += std::to_string(c) + s;
+    }
+```
+
+Oh, right!
