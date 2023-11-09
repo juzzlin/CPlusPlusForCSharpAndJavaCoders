@@ -248,3 +248,26 @@ Aaaargh! What is the point in that?
         void printName();
     };
 ```
+
+## Make your if-statements compact and properly scoped
+
+Since C++17 we have been able to do this very cool thing:
+
+**Don't do**
+
+```
+    const bool enabled = isEnabled();
+    if (enabled) {
+        ...
+    }
+```
+
+**Do**
+
+```
+    if (const bool enabled = isEnabled(); enabled) {
+        ...
+    }
+```
+
+Note that the initialized variable is visible also in the possible `else`-branch.
