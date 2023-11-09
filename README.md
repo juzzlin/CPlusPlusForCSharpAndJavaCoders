@@ -224,3 +224,27 @@ What the hell is this? Which variable is going to change and which is not going 
 ```
 
 Oh, right!
+
+## Variable naming: please leave PascalCase in the C#-world!
+
+**Don't do**
+
+```
+    class Foo
+    {
+    public:
+        void PrintName();
+    };
+```
+
+Aaaargh! What is the point in that?
+
+**Do**
+
+```
+    class Foo
+    {
+    public:
+        void printName();
+    };
+```
