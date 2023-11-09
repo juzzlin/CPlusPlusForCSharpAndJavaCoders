@@ -10,55 +10,43 @@ This is not supposed to be a C++ tutorial.
 
 **Don't do**
 
-```
     if (p != nullptr) {
         p->doSomething();
     }
-```
 
 **Do**
 
-```
     if (p) {
         p->doSomething();
     }
-```
 
 In C++ we don't need to always explicitly test against whatever truth value.
 
 **Don't do**
 
-```
     if (b == true) {
         std::cout << "b was true" << std::endl;
     }
-```
 
 **Do**
 
-```
     if (b) {
         std::cout << "b was true" << std::endl;
     }
-```
 
 Inverted case:
 
 **Don't do**
 
-```
     if (b == false) {
         std::cout << "b was false" << std::endl;
     }
-```
 
 **Do**
 
-```
     if (!b) {
         std::cout << "b was false" << std::endl;
     }
-```
 
 ## Instantiating variables: avoid using new
 
@@ -68,7 +56,6 @@ In C++ we have these things called `stack` and `scope`:
 
 **Don't do**
 
-```
     void createString()
     {
         std::string * s = new std::string("foo");
@@ -78,11 +65,9 @@ In C++ we have these things called `stack` and `scope`:
         // You have to delete s yourself
         delete s;
     }
-```
 
 **Do**
 
-```
     void createString()
     {
         std::string s("foo");
@@ -91,12 +76,10 @@ In C++ we have these things called `stack` and `scope`:
 
         // s gets automatically deleted here
     }
-```
 
 Or with smart pointers (`unique_ptr`, `shared_ptr`) that replace the legacy `new`:
 
 
-```
     void createString()
     {
         const auto s = std::make_unique<std::string>("foo");
@@ -105,7 +88,6 @@ Or with smart pointers (`unique_ptr`, `shared_ptr`) that replace the legacy `new
 
         // s gets automatically deleted here
     }
-```
 
 In modern C++ you almost **never** need to use `new` anymore (expect probably when working with frameworks like `Qt`).
 
@@ -115,58 +97,46 @@ After we got `auto` things got amazing. Let's demonstrate this with the legacy `
 
 **Don't do**
 
-```
     MyLongClassName * m = new MyLongClassName();
-```
 
 **Do**
 
-```
     auto m = new MyLongClassName;
-```
 
 Note also, that `()` is not needed in C++. At least replace these with the universal `{}`:
 
-```
     auto m = new MyLongClassName{};
-```
+
 ## Instantiating variables: understand the existence of universal and brace-enclosed initializations
 
 Often things are much easier in C++ than you first think.
 
 **Don't do**
 
-```
     Foo getEmptyObject()
     {
         foo Foo;
         return foo;
     }
-```
 
 **Don't do**
 
-```
     Foo getEmptyObject()
     {
         return Foo();
     }
-```
 
 **Do**
 
-```
     Foo getEmptyObject()
     {
         return {};
     }
-```
 
 How about this:
 
 **Don't do**
 
-```
     std::map<int, std::string> getMap()
     {
         std::map<int, std::string> m;
@@ -174,16 +144,13 @@ How about this:
         m[2] = "two";
         return m;
     }
-```
 
 **Do**
 
-```
     std::map<int, std::string> getMap()
     {
         return { {1, "one"}, {2, "two"} };
     }
-```
 
 Wow, that's neat!
 
@@ -197,7 +164,6 @@ However, in C++ it's a good practice to make everything you can const. It docume
 
 **Don't do**
 
-```
     int x = 0;
     int y = 5;
     std::string s(", ");
@@ -206,13 +172,11 @@ However, in C++ it's a good practice to make everything you can const. It docume
         int c = i * y;
         r += std::to_string(c) + s;
     }
-```
 
 What the hell is this? Which variable is going to change and which is not going to change?
 
 **Do**
 
-```
     const int x = 0;
     const int y = 5;
     const std::string s{", "};
@@ -221,7 +185,6 @@ What the hell is this? Which variable is going to change and which is not going 
         const int c = i * y;
         r += std::to_string(c) + s;
     }
-```
 
 Oh, right!
 
@@ -229,25 +192,21 @@ Oh, right!
 
 **Don't do**
 
-```
     class Foo
     {
     public:
         void PrintName();
     };
-```
 
 Aaaargh! What is the point in that?
 
 **Do**
 
-```
     class Foo
     {
     public:
         void printName();
     };
-```
 
 ## Make your if-statements compact and properly scoped
 
@@ -255,19 +214,15 @@ Since C++17 we have been able to do this very cool thing:
 
 **Don't do**
 
-```
     const bool enabled = isEnabled();
     if (enabled) {
         ...
     }
-```
 
 **Do**
 
-```
     if (const bool enabled = isEnabled(); enabled) {
         ...
     }
-```
 
 Note that the initialized variable is visible also in the possible `else`-branch.
